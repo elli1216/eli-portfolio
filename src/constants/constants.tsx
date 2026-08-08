@@ -317,6 +317,7 @@ export const SKILL_DATA: SkillItem[] = [
 ];
 
 export const certificates = [
+  { src: "/certificates/hackerrank.png", alt: "HackerRank Orchestrate August", href: "https://www.hackerrank.com/contests/hackerrank-orchestrate-august26/challenges/message-notification-router/leaderboard?username=darl" },
   { src: "/certificates/assocai.png", alt: "Associate AI Engineer for Developers", href: "https://www.datacamp.com/completed/statement-of-accomplishment/track/185ae827af3fb597750701fb515e41c0c01cff74" },
   { src: "/certificates/javadev-1.png", alt: "Java Developer", href: "https://www.datacamp.com/completed/statement-of-accomplishment/track/d24f11d25eef873a334251eaac3d132d5e082d51" },
   { src: "/certificates/mainframedeveloper.jpg", alt: "IBM Mainframe Developer", href: "https://www.coursera.org/account/accomplishments/specialization/certificate/GTA3SGF8S3NV" },
