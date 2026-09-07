@@ -7,6 +7,7 @@ import { skillCommands } from './commands.skills';
 import { otherCommands } from './commands.other';
 import { assistantCommands } from './commands.chat';
 import { catCommands } from './commands.cat';
+import { insightCommands } from './commands.insights';
 
 export const COMMANDS: Command[] = [
   ...generalCommands,
@@ -17,6 +18,7 @@ export const COMMANDS: Command[] = [
   ...otherCommands,
   ...assistantCommands,
   ...catCommands,
+  ...insightCommands,
 ];
 
 /** Populate the registry cache with the full command set. */

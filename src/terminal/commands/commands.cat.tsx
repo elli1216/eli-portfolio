@@ -5,7 +5,9 @@ import { getPositional } from './args';
 type CatFn = (ctx: CommandContext) => void;
 
 const pre = (text: string, size = 'text-[11px] sm:text-xs') => (
-  <pre className={`whitespace-pre leading-relaxed text-muted-foreground overflow-x-auto no-scrollbar ${size}`}>
+  <pre
+    className={`whitespace-pre leading-relaxed text-muted-foreground overflow-x-auto no-scrollbar ${size}`}
+  >
     {text}
   </pre>
 );
@@ -15,13 +17,13 @@ const pre = (text: string, size = 'text-[11px] sm:text-xs') => (
 /* -------------------------------------------------------------------------- */
 
 const FILE_META: Array<{ name: string; desc: string }> = [
-  { name: 'aboutme.yaml',      desc: 'Personal profile (YAML)' },
-  { name: 'experience.json',   desc: 'Work experience (JSON)' },
-  { name: 'projects.json',     desc: 'Projects dataset (JSON)' },
-  { name: 'skills.json',       desc: 'Skills inventory (JSON)' },
+  { name: 'aboutme.yaml', desc: 'Personal profile (YAML)' },
+  { name: 'experience.json', desc: 'Work experience (JSON)' },
+  { name: 'projects.json', desc: 'Projects dataset (JSON)' },
+  { name: 'skills.json', desc: 'Skills inventory (JSON)' },
   { name: 'certificates.json', desc: 'Certifications (JSON)' },
-  { name: 'contact.json',      desc: 'Contact info (JSON)' },
-  { name: 'readme',            desc: 'How to use this terminal' },
+  { name: 'contact.json', desc: 'Contact info (JSON)' },
+  { name: 'readme', desc: 'How to use this terminal' },
 ];
 
 const FILES: Record<string, CatFn> = {
@@ -59,11 +61,18 @@ const FILES: Record<string, CatFn> = {
   },
 
   'experience.json': (ctx) => {
-    ctx.pushBlock(pre(`$ cat experience.json\n${JSON.stringify(ctx.data.EXPERIENCE_DATA, null, 2)}`));
+    ctx.pushBlock(
+      pre(`$ cat experience.json\n${JSON.stringify(ctx.data.EXPERIENCE_DATA, null, 2)}`)
+    );
   },
 
   'projects.json': (ctx) => {
-    ctx.pushBlock(pre(`$ cat projects.json\n${JSON.stringify(ctx.data.PROJECT_DATA, null, 2)}`, 'text-[10px] sm:text-xs'));
+    ctx.pushBlock(
+      pre(
+        `$ cat projects.json\n${JSON.stringify(ctx.data.PROJECT_DATA, null, 2)}`,
+        'text-[10px] sm:text-xs'
+      )
+    );
   },
 
   'skills.json': (ctx) => {
@@ -71,11 +80,17 @@ const FILES: Record<string, CatFn> = {
   },
 
   'certificates.json': (ctx) => {
-    ctx.pushBlock(pre(`$ cat certificates.json\n${JSON.stringify(ctx.data.certificates, null, 2)}`));
+    ctx.pushBlock(
+      pre(`$ cat certificates.json\n${JSON.stringify(ctx.data.certificates, null, 2)}`)
+    );
   },
 
   'contact.json': (ctx) => {
-    const items = ctx.data.contactItems.map((c) => ({ label: c.label, value: c.value, href: c.href }));
+    const items = ctx.data.contactItems.map((c) => ({
+      label: c.label,
+      value: c.value,
+      href: c.href,
+    }));
     ctx.pushBlock(pre(`$ cat contact.json\n${JSON.stringify(items, null, 2)}`));
   },
 
@@ -84,10 +99,10 @@ const FILES: Record<string, CatFn> = {
       '# eli@portfolio — README',
       '',
       'Welcome to the interactive terminal portfolio.',
-      'All of Eli\'s details live in virtual files here.',
+      "All of Eli's details live in virtual files here.",
       '',
       '  ls                  list available files',
-      '  cat <file>          view a file\'s contents',
+      "  cat <file>          view a file's contents",
       '  more <file>         same as cat',
       '',
       'Quick commands:',
@@ -97,17 +112,21 @@ const FILES: Record<string, CatFn> = {
       '  about --verbose     detailed profile',
       '  neofetch            stylized system info',
       '  experience          career history',
-      '  experience 1        one entry in detail',
+      '  experience <n>      one entry in detail',
       '  projects            project list',
-      '  projects 2          one project in detail',
+      '  projects <n>        one project in detail',
       '  projects --category capstone',
       '  skills --core       the core stack',
       '  certificates        credentials',
       '  contact             how to reach out',
+      '  compare             side-by-side project table',
+      '  achievements        hackathon placements & awards',
+      '  timeline            chronological career path',
+      '  stats               contribution activity + metrics',
       '  github | linkedin | email',
       '  resume              open the PDF CV',
       '  nova <question>     ask the AI assistant',
-      '  clear               reset the terminal',
+      '  clear | cls         reset the terminal',
       '',
       'Use up/down arrows for history and Tab for completion.',
     ].join('\n');
@@ -126,13 +145,11 @@ const ls: Command = {
   category: 'data',
   run(_args, ctx) {
     const maxName = Math.max(...FILE_META.map((f) => f.name.length));
-    const lines = FILE_META.map(
-      (f) => `  ${f.name.padEnd(maxName + 2)}${f.desc}`,
-    );
+    const lines = FILE_META.map((f) => `  ${f.name.padEnd(maxName + 2)}${f.desc}`);
     ctx.pushBlock(
       <pre className="whitespace-pre text-[11px] sm:text-xs leading-relaxed text-foreground overflow-x-auto no-scrollbar">
         {`$ ls\n${lines.join('\n')}`}
-      </pre>,
+      </pre>
     );
   },
 };
