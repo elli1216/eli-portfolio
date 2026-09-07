@@ -12,17 +12,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 export const Navbar = () => {
   const { accentColor, setAccentColor } = useAccent();
   const { darkMode, toggleTheme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -48,11 +39,7 @@ export const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.5 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-card/85 backdrop-blur-md shadow-sm border-b border-border/70'
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent"
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Terminal Brand / Logo */}

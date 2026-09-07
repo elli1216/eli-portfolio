@@ -19,5 +19,7 @@ export const HeroBackground: React.FC = () => (
           'radial-gradient(ellipse 50% 50% at 65% 50%, rgba(var(--accent-rgb), 0.07) 0%, transparent 70%)',
       }}
     />
+    {/* Readability gradient so foreground content stays crisp */}
+    <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-background/70 via-transparent to-background/80" />
   </>
 );
