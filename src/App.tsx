@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
-import { useScroll, useTransform, motion, MotionConfig } from 'motion/react';
+import React, { useState } from 'react';
+import { MotionConfig } from 'motion/react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/home/Hero';
 import { TerminalEmulator } from '@/terminal/TerminalEmulator';
-import SmoothScroll from '@/components/layout/SmoothScroll';
 import { AccentProvider } from '@/contexts/AccentContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { NotFound } from '@/components/home/NotFound';
@@ -14,59 +13,31 @@ const App: React.FC = () => {
   const isNotFound = window.location.pathname !== '/';
   const isMobile = useMobile();
 
-  // Parallax: the hero (first 100dvh) fades/rises away as the terminal
-  // (the next 100dvh section) fades up into view. The terminal only becomes
-  // visible once the hero has mostly left the screen.
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.7], [0, -80]);
-  const termOpacity = useTransform(scrollYProgress, [0.6, 0.95], [0, 1]);
-  const termY = useTransform(scrollYProgress, [0.6, 0.95], [60, 0]);
+  // Two full-screen views toggled by the Hero's "open terminal" button (and the
+  // navbar brand), replacing the old scroll/parallax navigation. No page scroll.
+  const [view, setView] = useState<'hero' | 'terminal'>('hero');
+  const openTerminal = () => setView('terminal');
+  const goHome = () => setView('hero');
 
   return (
     <ThemeProvider>
       <AccentProvider>
         <MotionConfig reducedMotion="user">
-          <SmoothScroll>
+          <div className="h-dvh overflow-hidden">
             {isNotFound ? (
               <NotFound />
             ) : (
-              <div className="w-full overflow-x-hidden">
+              <div className="w-full h-full">
                 {isMobile ? null : <ThemedCursor />}
-                <Navbar />
-
-                {/* Hero = first viewport, scrolls away via parallax. */}
-                <div
-                  ref={heroRef}
-                  className="relative overflow-hidden"
-                  style={{ height: '100dvh' }}
-                >
-                  <motion.div
-                    style={{ opacity: heroOpacity, y: heroY, willChange: 'transform' }}
-                    className="h-full"
-                  >
-                    <Hero />
-                  </motion.div>
-                </div>
-
-                {/* Terminal = pins to the viewport once the hero scrolls away.
-                  Its scrollback (<data-lenis-prevent> + term-scrollbar) is then
-                  the only inner scroll. */}
-                <div className="sticky top-0 z-10 h-dvh overflow-hidden">
-                  <motion.div
-                    style={{ opacity: termOpacity, y: termY, willChange: 'transform' }}
-                    className="h-full"
-                  >
-                    <TerminalEmulator />
-                  </motion.div>
-                </div>
+                {view === 'hero' && <Navbar onHome={goHome} />}
+                {view === 'hero' ? (
+                  <Hero onOpenTerminal={openTerminal} />
+                ) : (
+                  <TerminalEmulator onClose={goHome} />
+                )}
               </div>
             )}
-          </SmoothScroll>
+          </div>
         </MotionConfig>
       </AccentProvider>
     </ThemeProvider>

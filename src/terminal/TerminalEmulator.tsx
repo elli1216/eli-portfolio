@@ -22,7 +22,7 @@ const QUICK_COMMANDS = [
  * The full-screen interactive terminal. Owns the chrome (header + scrollback +
  * input) and wires together the terminal state hook and input hook.
  */
-export const TerminalEmulator: React.FC = () => {
+export const TerminalEmulator: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const term = useTerminal({ inputRef, scrollRef });
@@ -51,9 +51,34 @@ export const TerminalEmulator: React.FC = () => {
             onClick={focusInput}
           >
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="size-2.5 sm:size-3 rounded-full bg-rose-500/80 inline-block" />
-              <span className="size-2.5 sm:size-3 rounded-full bg-amber-500/80 inline-block" />
-              <span className="size-2.5 sm:size-3 rounded-full bg-emerald-500/80 inline-block" />
+              {/* All three traffic-light buttons close the terminal (return to Hero) */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+                className="size-2.5 sm:size-3 rounded-full bg-rose-500/80 hover:bg-rose-500 inline-block transition-colors cursor-target"
+                aria-label="Close terminal"
+                title="Close terminal"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+                className="size-2.5 sm:size-3 rounded-full bg-amber-500/80 hover:bg-amber-500 inline-block transition-colors cursor-target"
+                aria-label="Close terminal"
+                title="Close terminal"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+                className="size-2.5 sm:size-3 rounded-full bg-emerald-500/80 hover:bg-emerald-500 inline-block transition-colors cursor-target"
+                aria-label="Close terminal"
+                title="Close terminal"
+              />
             </div>
             <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-mono text-muted-foreground truncate min-w-0">
               <Terminal size={12} className="text-primary shrink-0" />

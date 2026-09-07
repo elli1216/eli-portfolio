@@ -239,6 +239,19 @@ void main() {
 }
 `;
 
+/** Effective opacity of an element including every ancestor (opacity does
+ *  not inherit, so getComputedStyle(el).opacity alone misses a fade applied
+ *  to a parent, e.g. the Hero→Terminal parallax motion.div). */
+function effectiveOpacity(el: HTMLElement): number {
+  let opacity = 1;
+  let node: HTMLElement | null = el;
+  while (node) {
+    opacity *= parseFloat(getComputedStyle(node).opacity);
+    node = node.parentElement;
+  }
+  return opacity;
+}
+
 function hexToRgb(hex: string): [number, number, number] {
   let h = hex.replace('#', '').trim();
   if (h.length === 3)
@@ -283,6 +296,7 @@ export default function FaultyTerminal({
   const rafRef = useRef<number>(0);
   const loadAnimationStartRef = useRef<number>(0);
   const timeOffsetRef = useRef<number>(0);
+  const isVisibleRef = useRef(true);
 
   const tintVec = useMemo(() => hexToRgb(tint), [tint]);
 
@@ -360,8 +374,29 @@ export default function FaultyTerminal({
     resizeObserver.observe(ctn);
     resize();
 
+    // Stop the RAF loop when the container leaves the viewport
+    // to avoid rendering a full-screen WebGL shader off-screen.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisibleRef.current;
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !wasVisible) {
+          rafRef.current = requestAnimationFrame(update);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(ctn);
+
     const update = (t: number) => {
+      if (!isVisibleRef.current) return;
       rafRef.current = requestAnimationFrame(update);
+
+      // Skip the expensive GPU draw call when the container is effectively
+      // transparent (e.g. during the Hero→Terminal parallax fade where a parent
+      // motion.div is faded to opacity 0 but IntersectionObserver still reports
+      // the element as intersecting).
+      if (effectiveOpacity(ctn) < 0.01) return;
 
       if (pageLoadAnimation && loadAnimationStartRef.current === 0) {
         loadAnimationStartRef.current = t;
@@ -404,6 +439,7 @@ export default function FaultyTerminal({
     return () => {
       cancelAnimationFrame(rafRef.current);
       resizeObserver.disconnect();
+      observer.disconnect();
       if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();

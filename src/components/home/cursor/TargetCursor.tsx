@@ -124,6 +124,13 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     createSpinTimeline();
 
     const tickerFn = () => {
+      // If the hovered target was removed from the DOM (e.g. switching between
+      // views unmounts a button without a mouseleave), force the leave reset so
+      // the bracket cursor doesn't stay stuck framing the dead element.
+      if (activeTarget && !activeTarget.isConnected) {
+        currentLeaveHandler?.();
+        return;
+      }
       if (!targetCornerPositionsRef.current || !cursorRef.current || !cornersRef.current) {
         return;
       }

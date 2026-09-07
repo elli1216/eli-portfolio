@@ -5,37 +5,65 @@ import { Block } from '../components/blocks';
 import { col, headerRow, rule, columnWidths } from '../lib/format';
 import { getFlag } from './args';
 
-/* ── deterministic PRNG (no Math.random at render) ────────────────────── */
-
-function seeded(seed: number): () => number {
-  let t = seed + 0x6d2b79f5;
-  return () => {
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-const WEEKLY = 52; // GitHub-style weeks in a year view
-
 /* ── 1. stats ─────────────────────────────────────────────────────────── */
+
+interface GitHubUser {
+  login: string;
+  name: string | null;
+  bio: string | null;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  location: string | null;
+  avatar_url: string;
+}
 
 const stats: Command = {
   name: 'stats',
   aliases: ['contribs', 'gh-stats', 'activity'],
-  description: 'GitHub-style contribution activity + portfolio metrics.',
-  usage: 'stats [--wide]',
+  description: 'GitHub profile stats + portfolio metrics.',
+  usage: 'stats',
   category: 'web',
-  run(args, ctx) {
-    const wide = getFlag(args, 'wide') !== undefined;
+  async run(_args, ctx) {
     const d = ctx.data;
-    const rnd = seeded(d.PROJECT_DATA.length);
-    const weeks = wide ? WEEKLY : 26;
+    ctx.push('fetching github profile...', 'muted');
+
+    let gh: GitHubUser | null = null;
+    try {
+      const res = await fetch('https://api.github.com/users/elli1216');
+      if (res.ok) gh = await res.json();
+    } catch {
+      // network error — show local stats only
+    }
+
+    const joined = gh ? new Date(gh.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '—';
 
     ctx.pushBlock(
-      <Block title="contribution-activity — elli1216">
-        <Heatmap weeks={weeks} rnd={rnd} />
-        <div className="mt-3 pt-2 border-t border-border/40 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+      <Block title="gh-stats — elli1216">
+        {gh && (
+          <div className="mb-3 flex items-center gap-3">
+            <img
+              src={gh.avatar_url}
+              alt={gh.login}
+              className="size-10 rounded-full border border-border/60"
+              loading="lazy"
+            />
+            <div className="min-w-0">
+              <div className="text-foreground font-semibold text-sm truncate">{gh.name ?? gh.login}</div>
+              <div className="text-muted-foreground text-[11px] truncate">{gh.bio ?? `@${gh.login}`}</div>
+            </div>
+          </div>
+        )}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          {gh && (
+            <>
+              <Stat label="repos" value={String(gh.public_repos)} />
+              <Stat label="followers" value={String(gh.followers)} />
+              <Stat label="following" value={String(gh.following)} />
+              <Stat label="joined" value={joined} />
+            </>
+          )}
           <Stat label="projects" value={String(d.PROJECT_DATA.length)} />
           <Stat label="skills" value={String(d.SKILL_DATA.length)} />
           <Stat label="certificates" value={String(d.certificates.length)} />
@@ -45,32 +73,6 @@ const stats: Command = {
     );
   },
 };
-
-function Heatmap({ weeks, rnd }: { weeks: number; rnd: () => number }) {
-  const rows = 7; // Sun..Sat
-  const cells = Array.from({ length: weeks * rows }, () => Math.floor(rnd() * 5));
-  const levels = [
-    'bg-foreground/10',
-    'bg-emerald-500/25',
-    'bg-emerald-500/45',
-    'bg-emerald-500/70',
-    'bg-emerald-500',
-  ];
-  return (
-    <div className="flex justify-center gap-[3px] overflow-x-auto no-scrollbar pb-1">
-      {Array.from({ length: weeks }, (_, w) => (
-        <div key={w} className="flex flex-col gap-[3px]">
-          {Array.from({ length: rows }, (_, r) => (
-            <span
-              key={r}
-              className={`size-2 rounded-[2px] shrink-0 ${levels[cells[w * rows + r]]}`}
-            />
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 /* ── 2. achievements ──────────────────────────────────────────────────── */
 

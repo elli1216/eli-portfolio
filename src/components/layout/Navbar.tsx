@@ -9,7 +9,7 @@ import { useTheme } from '@/contexts/ThemeContext';
  * Fixed navbar. With the single-terminal redesign the nav is minimal:
  * the brand prompt plus the theme + accent toggles — no section links.
  */
-export const Navbar = () => {
+export const Navbar = ({ onHome }: { onHome: () => void }) => {
   const { accentColor, setAccentColor } = useAccent();
   const { darkMode, toggleTheme } = useTheme();
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -48,10 +48,10 @@ export const Navbar = () => {
           className="cursor-target font-mono text-base sm:text-lg font-bold text-foreground tracking-tight flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted/40 border border-border/50 hover:border-primary/50 transition-colors"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          aria-label="Back to top"
+          aria-label="Home"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            onHome();
           }}
         >
           <Terminal size={15} className="text-primary" />
