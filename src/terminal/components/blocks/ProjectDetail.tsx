@@ -125,6 +125,16 @@ export const ProjectDetail: React.FC<Props> = ({ project, index }) => (
               ./git-clone.sh
             </a>
           )}
+          {project.certificate && (
+            <a
+              href={project.certificate}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-target px-2.5 py-1 rounded bg-muted/40 border border-border/60 text-foreground text-[11px] font-medium hover:border-primary/40"
+            >
+              ./view-certficate.sh
+            </a>
+          )}
         </div>
       )}
 

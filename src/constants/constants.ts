@@ -165,6 +165,7 @@ export const PROJECT_DATA: ProjectItem[] = [
     demoLink: 'https://merge-master-ai.vercel.app',
     repoLink: 'https://github.com/elli1216/MergeMasterAI',
     category: category.HACKATHON,
+    certificate: '/certificates/aug-ai-builders-challenge.png',
   },
   {
     title: 'QuickRoute',
