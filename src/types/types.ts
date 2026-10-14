@@ -10,6 +10,18 @@ export interface NavItem {
   href: string;
 }
 
+/**
+ * A page section in the single-page layout. `id` is the DOM anchor, `command`
+ * is the prompt line that heads the section and the command that navigates to
+ * it from the floating terminal.
+ */
+export interface SectionLink {
+  id: string;
+  label: string;
+  command: string;
+  aliases: string[];
+}
+
 export interface ExperienceItem {
   role: string;
   company: string;
@@ -46,7 +58,7 @@ export interface SkillItem {
   name: string;
   icon?: string;
   category: 'frontend' | 'backend' | 'tools';
-  render?: boolean;
+  core?: boolean;
 }
 
 export interface Message {

@@ -4,13 +4,15 @@ import type { TerminalInputApi } from './useTerminalInput';
 
 interface Props {
   api: TerminalInputApi;
+  /** Extra classes merged onto the input form (e.g. corner rounding). */
+  className?: string;
 }
 
 /**
  * The input row: terminal prompt, editable command, and a blinking caret.
  * Uses a native input so the mobile soft keyboard opens on tap.
  */
-export const TerminalInput = forwardRef<HTMLInputElement, Props>(({ api }, ref) => {
+export const TerminalInput = forwardRef<HTMLInputElement, Props>(({ api, className = '' }, ref) => {
   const { currentAccent } = useAccent();
   const show = api.suggestions.length > 0;
 
@@ -46,7 +48,7 @@ export const TerminalInput = forwardRef<HTMLInputElement, Props>(({ api }, ref) 
           e.preventDefault();
           api.submit();
         }}
-        className="px-3 sm:px-4 py-3 border-t border-border/70 bg-muted/20 flex items-center gap-2 shrink-0"
+        className={`px-3 sm:px-4 py-3 border-t border-border/70 bg-muted/20 flex items-center gap-2 shrink-0 rounded-b-xl ${className}`}
       >
         <span className="text-primary font-bold text-xs sm:text-sm shrink-0 font-mono select-none">
           eli@portfolio:~$

@@ -21,9 +21,11 @@ export interface TerminalApi {
 interface TerminalRefs {
   inputRef: React.RefObject<HTMLInputElement | null>;
   scrollRef: React.RefObject<HTMLDivElement | null>;
+  /** Print the welcome banner on mount (default true). */
+  autoWelcome?: boolean;
 }
 
-export function useTerminal({ inputRef, scrollRef }: TerminalRefs): TerminalApi {
+export function useTerminal({ inputRef, scrollRef, autoWelcome = true }: TerminalRefs): TerminalApi {
   const [lines, setLines] = useState<OutputLine[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const blockId = useRef(0);
@@ -104,13 +106,13 @@ export function useTerminal({ inputRef, scrollRef }: TerminalRefs): TerminalApi 
     if (el && nearBottom.current) el.scrollTop = el.scrollHeight;
   }, [lines]);
 
-  // Bootstrap the welcome banner once on mount.
+  // Bootstrap the registry (and optionally the welcome banner) once on mount.
   useEffect(() => {
     if (booted.current) return;
     booted.current = true;
     buildRegistry();
-    addWelcome();
-  }, [addWelcome]);
+    if (autoWelcome) addWelcome();
+  }, [addWelcome, autoWelcome]);
 
   const execute = useCallback(
     async (input: string) => {

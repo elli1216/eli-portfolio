@@ -1,43 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MotionConfig } from 'motion/react';
 import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
+import { FloatingTerminal } from '@/components/layout/FloatingTerminal';
+import { BackToTop } from '@/components/layout/BackToTop';
 import { Hero } from '@/components/home/Hero';
-import { TerminalEmulator } from '@/terminal/TerminalEmulator';
+import { NotFound } from '@/components/home/NotFound';
+import {
+  AboutSection,
+  ExperienceSection,
+  SkillsSection,
+  ProjectsSection,
+  CertificatesSection,
+  ContactSection,
+} from '@/components/sections';
 import { AccentProvider } from '@/contexts/AccentContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import { NotFound } from '@/components/home/NotFound';
-import { ThemedCursor } from './components/home/cursor/ThemedCursor';
-import { useMobile } from './lib/utils';
 
+/**
+ * Single-page terminal-themed portfolio. Sections scroll normally; the floating
+ * command bar at the bottom navigates between them and runs any other command
+ * in its output drawer.
+ */
 const App: React.FC = () => {
   const isNotFound = window.location.pathname !== '/';
-  const isMobile = useMobile();
-
-  // Two full-screen views toggled by the Hero's "open terminal" button (and the
-  // navbar brand), replacing the old scroll/parallax navigation. No page scroll.
-  const [view, setView] = useState<'hero' | 'terminal'>('hero');
-  const openTerminal = () => setView('terminal');
-  const goHome = () => setView('hero');
 
   return (
     <ThemeProvider>
       <AccentProvider>
         <MotionConfig reducedMotion="user">
-          <div className="h-dvh overflow-hidden">
-            {isNotFound ? (
-              <NotFound />
-            ) : (
-              <div className="w-full h-full">
-                {isMobile ? null : <ThemedCursor />}
-                {view === 'hero' && <Navbar onHome={goHome} />}
-                {view === 'hero' ? (
-                  <Hero onOpenTerminal={openTerminal} />
-                ) : (
-                  <TerminalEmulator onClose={goHome} />
-                )}
-              </div>
-            )}
-          </div>
+          {isNotFound ? (
+            <NotFound />
+          ) : (
+            <div className="relative min-h-dvh">
+              <Navbar />
+              <main>
+                <Hero />
+                <AboutSection />
+                <ExperienceSection />
+                <SkillsSection />
+                <ProjectsSection />
+                <CertificatesSection />
+                <ContactSection />
+              </main>
+              <Footer />
+              <FloatingTerminal />
+              <BackToTop />
+            </div>
+          )}
         </MotionConfig>
       </AccentProvider>
     </ThemeProvider>

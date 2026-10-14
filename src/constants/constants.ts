@@ -1,4 +1,4 @@
-import { AccentColor, ExperienceItem, ProjectItem, SkillItem } from '@/types/types';
+import { AccentColor, ExperienceItem, ProjectItem, SectionLink, SkillItem } from '@/types/types';
 import { Facebook, Github, Linkedin, Mail } from 'lucide-react';
 
 export const NAMES = ['Darl Ellison Floresca', 'Darl Floresca', 'Eli Floresca', 'Ellison Floresca'];
@@ -56,6 +56,30 @@ export const NAV_ITEMS = [
   { label: 'Contact', href: '#contact' },
 ];
 
+/**
+ * Single-page sections in render order. Each section opens with its `command`
+ * prompt line and can be reached by running that command (or any alias) from
+ * the floating terminal.
+ */
+export const SECTIONS: SectionLink[] = [
+  { id: 'about', label: 'About', command: 'about', aliases: ['me', 'info', 'profile'] },
+  {
+    id: 'experience',
+    label: 'Experience',
+    command: 'experience',
+    aliases: ['exp', 'career', 'work'],
+  },
+  { id: 'skills', label: 'Skills', command: 'skills', aliases: ['stack', 'tech', 'toolchain'] },
+  { id: 'projects', label: 'Projects', command: 'projects', aliases: ['proj', 'portfolio'] },
+  {
+    id: 'certificates',
+    label: 'Certificates',
+    command: 'certificates',
+    aliases: ['certs', 'badges'],
+  },
+  { id: 'contact', label: 'Contact', command: 'contact', aliases: ['reach', 'connect', 'socials'] },
+];
+
 export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
     role: 'Custom Software Engineer',
@@ -66,7 +90,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     description: ['Onboarded as a Custom Software Engineer after 3 month training.'],
   },
   {
-    role: 'Full Stack Development Trainee',
+    role: 'Full Stack Trainee',
     company: 'Accenture Technology Academy',
     companyUrl: 'accenture.com',
     period: 'April 2026 - July 2026',
@@ -79,7 +103,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     certificate: '/certificates/training.png',
   },
   {
-    role: 'COBOL Developer Intern',
+    role: 'Developer Intern',
     company: 'Land Bank of the Philippines (HO)',
     companyUrl: 'landbank.com',
     period: 'February 2026 - April 2026',
@@ -93,7 +117,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     certificate: '/certificates/internship.png',
   },
   {
-    role: 'Salesforce Developer Intern',
+    role: 'Salesforce Intern',
     company: 'The SmartBridge',
     companyUrl: 'thesmartbridge.com',
     period: 'March 2025 – May 2025',
@@ -711,26 +735,27 @@ export const PROJECT_DATA: ProjectItem[] = [
 ];
 
 export const SKILL_DATA: SkillItem[] = [
-  { name: 'Java', category: 'backend', icon: 'java', render: true },
-  { name: 'COBOL', category: 'backend', icon: '', render: true },
-  { name: 'Spring Boot', category: 'backend', icon: 'spring', render: true },
-  { name: 'ReactJS', category: 'frontend', icon: 'react', render: true },
-  { name: 'Tailwind CSS', category: 'frontend', icon: 'tailwindcss', render: true },
-  { name: 'NextJS', category: 'frontend', icon: 'nextjs2', render: true },
-  { name: 'Tanstack', category: 'frontend', icon: 'tanstack2', render: true },
-  { name: 'TypeScript', category: 'frontend', icon: 'typescript', render: true },
-  { name: 'PostgreSQL', category: 'backend', icon: 'postgresql', render: true },
-  { name: 'NodeJS', category: 'backend', icon: 'nodejs', render: true },
-  { name: 'Docker', category: 'tools', icon: 'docker', render: true },
-  { name: 'Git', category: 'tools', icon: 'git', render: true },
-  { name: 'JavaScript', category: 'frontend', icon: 'js' },
+  { name: 'Java', category: 'backend', icon: 'java', core: true },
+  { name: 'COBOL', category: 'backend', icon: '', core: true },
+  { name: 'Spring Boot', category: 'backend', icon: 'spring', core: true },
+  { name: 'ReactJS', category: 'frontend', icon: 'react', core: true },
+  { name: 'Tailwind CSS', category: 'frontend', icon: 'tailwindcss', core: true },
+  { name: 'NextJS', category: 'frontend', icon: 'nextjs2', core: true },
+  { name: 'Tanstack', category: 'frontend', icon: 'tanstack2', core: true },
+  { name: 'PostgreSQL', category: 'backend', icon: 'postgresql', core: true },
+  { name: 'NodeJS', category: 'backend', icon: 'nodejs', core: true },
+  { name: 'Docker', category: 'tools', icon: 'docker', core: true },
+  { name: 'Git', category: 'tools', icon: 'git', core: true },
+  { name: 'Bash', category: 'tools', icon: 'bash', core: true },
+  { name: 'JavaScript', category: 'frontend', icon: 'js', core: true },
+  { name: 'TypeScript', category: 'frontend', icon: 'typescript' },
   { name: 'HTML5', category: 'frontend', icon: 'html5' },
   { name: 'CSS3', category: 'frontend', icon: 'css3' },
   { name: 'SQL', category: 'backend', icon: 'mysql' },
   { name: 'JCL', category: 'backend', icon: '' },
   { name: 'ExpressJS', category: 'backend', icon: 'expressjs' },
   { name: 'GitHub', category: 'tools', icon: 'github' },
-  { name: 'Bash', category: 'tools', icon: 'bash' },
+  { name: 'Jenkins', category: 'tools', icon: 'jenkins' },
   { name: 'Python', category: 'backend', icon: 'python' },
   { name: 'Prisma', category: 'backend', icon: 'prisma' },
   { name: 'OpenAI', category: 'tools', icon: 'openai' },

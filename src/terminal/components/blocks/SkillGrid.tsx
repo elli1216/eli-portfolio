@@ -36,7 +36,7 @@ export const SkillGrid: React.FC<Props> = ({ items }) => {
                     className="px-2 py-1 rounded bg-muted/30 border border-border/40 text-[11px] flex items-center justify-between gap-2"
                   >
                     <span className="truncate">{skill.name}</span>
-                    {skill.render ? (
+                    {skill.core ? (
                       <span className="text-[9px] text-emerald-500 font-bold shrink-0">CORE</span>
                     ) : (
                       <span className="text-[9px] text-muted-foreground shrink-0">ok</span>

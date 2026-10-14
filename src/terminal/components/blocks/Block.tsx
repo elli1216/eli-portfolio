@@ -23,7 +23,7 @@ export const Block: React.FC<BlockProps> = ({ title, tone = 'default', children,
 
   return (
     <div
-      className={`my-1 rounded-lg border border-border/60 bg-card/40 overflow-hidden ${className}`}
+      className={`my-1 flex h-full flex-col rounded-lg border border-border/60 bg-card/40 overflow-hidden ${className}`}
     >
       <div
         className={`px-3 py-1.5 bg-muted/40 border-b border-border/50 text-[10px] font-mono uppercase tracking-wider flex items-center gap-2 ${titleTone}`}
@@ -31,7 +31,7 @@ export const Block: React.FC<BlockProps> = ({ title, tone = 'default', children,
         <span className="text-primary font-bold shrink-0">▸</span>
         <span className="truncate">{title}</span>
       </div>
-      <div className="p-3 sm:p-4 text-xs sm:text-sm font-mono text-foreground">
+      <div className="flex-1 p-3 sm:p-4 text-xs sm:text-sm font-mono text-foreground">
         {children}
       </div>
     </div>

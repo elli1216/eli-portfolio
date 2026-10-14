@@ -14,7 +14,7 @@ const skills: Command = {
     const category = getFlag(args, 'category') || getFlag(args, 'c');
 
     let filtered = items;
-    if (core) filtered = filtered.filter((s) => s.render);
+    if (core) filtered = filtered.filter((s) => s.core);
     if (category) {
       const needle = category.toLowerCase();
       filtered = filtered.filter((s) => s.category.toLowerCase().includes(needle));

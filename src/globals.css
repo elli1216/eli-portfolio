@@ -44,19 +44,19 @@
   --accent: #1a1a1a;
 }
 
-.accent-green { --primary: #2da44e; --primary-foreground: #ffffff; }
-.accent-blue { --primary: #2563eb; --primary-foreground: #ffffff; }
-.accent-red { --primary: #e63946; --primary-foreground: #ffffff; }
-.accent-orange { --primary: #ea580c; --primary-foreground: #ffffff; }
-.accent-purple { --primary: #9333ea; --primary-foreground: #ffffff; }
-.accent-gray { --primary: #1f2328; --primary-foreground: #ffffff; }
+.accent-green { --primary: #2da44e; --primary-foreground: #ffffff; --accent-rgb: 45, 164, 79; }
+.accent-blue { --primary: #2563eb; --primary-foreground: #ffffff; --accent-rgb: 37, 99, 235; }
+.accent-red { --primary: #e63946; --primary-foreground: #ffffff; --accent-rgb: 230, 57, 70; }
+.accent-orange { --primary: #ea580c; --primary-foreground: #ffffff; --accent-rgb: 234, 88, 12; }
+.accent-purple { --primary: #9333ea; --primary-foreground: #ffffff; --accent-rgb: 147, 51, 234; }
+.accent-gray { --primary: #1f2328; --primary-foreground: #ffffff; --accent-rgb: 110, 119, 129; }
 
-.dark.accent-green { --primary: #2da44e; }
-.dark.accent-blue { --primary: #2563eb; }
-.dark.accent-red { --primary: #e63946; }
-.dark.accent-orange { --primary: #ea580c; }
-.dark.accent-purple { --primary: #9333ea; }
-.dark.accent-gray { --primary: #e6edf3; }
+.dark.accent-green { --primary: #2da44e; --accent-rgb: 45, 164, 79; }
+.dark.accent-blue { --primary: #2563eb; --accent-rgb: 59, 130, 246; }
+.dark.accent-red { --primary: #e63946; --accent-rgb: 239, 68, 68; }
+.dark.accent-orange { --primary: #ea580c; --accent-rgb: 249, 115, 22; }
+.dark.accent-purple { --primary: #9333ea; --accent-rgb: 168, 85, 247; }
+.dark.accent-gray { --primary: #e6edf3; --accent-rgb: 161, 161, 170; }
 
 .glow {
   -webkit-box-shadow: 0px 0px 50px 0px rgba(45, 164, 79, 0.76);
@@ -144,14 +144,42 @@
   html, body {
     @apply bg-background text-foreground overflow-x-hidden max-w-full;
   }
-  /* Hide the page-level scrollbar: the hero is a clean static screen and the
-     terminal's own scrollback (.term-scrollbar) is the only inner scroll. */
+  /* Anchor scrolling clears the fixed navbar and keeps the sticky command bar
+     from covering the section heading. */
   html {
-    scrollbar-width: none; /* Firefox */
+    scroll-padding-top: 5rem;
+    /* Accent-tinted page scrollbar to match the terminal scrollback. */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--accent-rgb), 0.4) transparent;
   }
   html::-webkit-scrollbar {
-    display: none; /* Chrome / Safari / Edge */
+    width: 10px;
   }
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  html::-webkit-scrollbar-thumb {
+    background: rgba(var(--accent-rgb), 0.35);
+    border-radius: 8px;
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--accent-rgb), 0.5);
+  }
+}
+
+/* Blinking block caret used by the section command prompt. */
+@keyframes caret-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret {
+  animation: caret-blink 1.1s step-end infinite;
 }
 
 html.lenis,
