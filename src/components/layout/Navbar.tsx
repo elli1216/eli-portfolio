@@ -24,6 +24,21 @@ export const Navbar = ({ onHome }: { onHome?: () => void }) => {
     else window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  /**
+   * Navigate to a section via `scrollIntoView` rather than the native
+   * `href="#id"` jump. Native fragment scrolling is unreliable here because the
+   * page sets `overflow-x: hidden` on `html`/`body`, which turns the root into a
+   * (nested) scroll container and breaks anchor scrolling on mobile WebKit.
+   * This mirrors the mechanism the floating terminal already uses.
+   */
+  const goToSection = (id: string) => {
+    setMobileOpen(false);
+    const target = document.getElementById(id);
+    if (!target) return;
+    setActiveSection(id);
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -110,6 +125,11 @@ export const Navbar = ({ onHome }: { onHome?: () => void }) => {
               <a
                 key={section.id}
                 href={`#${section.id}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  goToSection(section.id);
+                }}
+                aria-current={isActive ? 'true' : undefined}
                 className={`px-2.5 py-1.5 rounded-md transition-colors ${
                   isActive
                     ? 'text-primary bg-primary/10'
@@ -206,7 +226,11 @@ export const Navbar = ({ onHome }: { onHome?: () => void }) => {
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      goToSection(section.id);
+                    }}
+                    aria-current={isActive ? 'true' : undefined}
                     className={`px-3 py-2.5 rounded-md transition-colors ${
                       isActive
                         ? 'text-primary bg-primary/10'

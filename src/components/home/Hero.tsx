@@ -21,6 +21,12 @@ export const Hero: React.FC = () => (
     <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pb-10">
       <motion.a
         href="#about"
+        onClick={(event) => {
+          event.preventDefault();
+          document
+            .getElementById('about')
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
         className="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 bg-card/40 backdrop-blur-sm font-mono text-xs sm:text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-colors"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}

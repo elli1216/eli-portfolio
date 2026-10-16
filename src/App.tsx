@@ -12,6 +12,7 @@ import {
   SkillsSection,
   ProjectsSection,
   CertificatesSection,
+  NovaSection,
   ContactSection,
 } from '@/components/sections';
 import { AccentProvider } from '@/contexts/AccentContext';
@@ -41,6 +42,7 @@ const App: React.FC = () => {
                 <SkillsSection />
                 <ProjectsSection />
                 <CertificatesSection />
+                <NovaSection />
                 <ContactSection />
               </main>
               <Footer />

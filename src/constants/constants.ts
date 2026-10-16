@@ -77,6 +77,7 @@ export const SECTIONS: SectionLink[] = [
     command: 'certificates',
     aliases: ['certs', 'badges'],
   },
+  { id: 'nova', label: 'Ask AI', command: 'nova', aliases: ['ai', 'ask', 'chat'] },
   { id: 'contact', label: 'Contact', command: 'contact', aliases: ['reach', 'connect', 'socials'] },
 ];
 
