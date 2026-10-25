@@ -2,10 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import { HeroContent } from '@/components/home/HeroContent';
+import { BANNER_LINES } from '@/terminal/data/banner';
 
 /**
- * Landing section. The page-wide backdrop (grid, scanlines, glow) is rendered
- * once at the app root; the hero only lays out its content and a scroll hint.
+ * Landing section. Redesigned with a cleaner layout, subtle ASCII accent,
+ * and improved hierarchy. Mobile responsive.
  * The floating command bar stays hidden while this section is in view.
  */
 export const Hero: React.FC = () => (
@@ -13,9 +14,34 @@ export const Hero: React.FC = () => (
     id="home"
     className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden"
   >
-    <div className="relative z-10 mx-auto flex w-full max-w-5xl items-center justify-center px-6 py-16 md:py-20">
-      <HeroContent />
+    {/* Subtle ASCII background accent */}
+    <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center opacity-[0.04] dark:opacity-[0.06]">
+      <pre className="select-none whitespace-pre font-mono text-primary text-[6px] leading-tight sm:text-[8px] md:text-[10px] lg:text-xs">
+        {BANNER_LINES.join('\n')}
+      </pre>
     </div>
+
+    <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-4 py-16 sm:px-6 lg:py-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full"
+      >
+        <HeroContent />
+      </motion.div>
+    </div>
+
+    <motion.div
+      className="absolute inset-x-0 bottom-12 z-10 flex justify-center px-4"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.0, duration: 0.6 }}
+    >
+      <p className="font-mono text-center text-xs sm:text-sm text-primary/90">
+        <span className="text-muted-foreground">$</span> Build. Learn. Ship.
+      </p>
+    </motion.div>
 
     {/* Scroll affordance linking into the first section */}
     <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center pb-10">
@@ -27,10 +53,10 @@ export const Hero: React.FC = () => (
             .getElementById('about')
             ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }}
-        className="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 bg-card/40 backdrop-blur-sm font-mono text-xs sm:text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-colors"
+        className="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 bg-card/40 backdrop-blur-sm font-mono text-xs sm:text-sm text-foreground hover:border-primary hover:bg-primary/10 transition-all duration-300"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.1, duration: 0.6 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
       >

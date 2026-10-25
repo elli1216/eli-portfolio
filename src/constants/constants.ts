@@ -97,14 +97,14 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     period: 'April 2026 - July 2026',
     location: 'Mandaluyong City, Philippines | Hybrid',
     description: [
-      'Selected for an exclusive 343-hour intensive training program focused on Full Stack Development and Microservices.',
+      'Took an exclusive 343-hour intensive training program focused on Full Stack Development and Microservices.',
       'Mastered enterprise backend technologies including Core Java and Spring Boot.',
       'Developed responsive frontend applications utilizing modern ReactJS and TypeScript.',
     ],
     certificate: '/certificates/training.png',
   },
   {
-    role: 'Developer Intern',
+    role: 'Software Developer Intern',
     company: 'Land Bank of the Philippines (HO)',
     companyUrl: 'landbank.com',
     period: 'February 2026 - April 2026',
@@ -914,3 +914,165 @@ export const MONTHS = [
   'November',
   'December',
 ];
+
+export interface StorylineMilestone {
+  year: string;
+  period?: string;
+  title: string;
+  description: string;
+  tags?: string[];
+}
+
+export const STORYLINE_MILESTONES: StorylineMilestone[] = [
+  {
+    year: '2021',
+    title: 'First Hello World in Java',
+    description:
+      'Wrote my first "Hello World" in Java. The spark that pulled me down the path of building things with code.',
+    tags: ['Java', 'Start'],
+  },
+  {
+    year: '2022',
+    period: 'Aug 2022',
+    title: 'Started BSIT at Bulacan State University',
+    description:
+      'Enrolled in BSIT at BulSU (Malolos). Began building fundamentals in programming and problem solving.',
+    tags: ['Education', 'BulSU'],
+  },
+  {
+    year: '2024',
+    title: 'First Java MVC Project',
+    description:
+      'Built my first Java MVC project, learning structure, separation of concerns, and how applications actually come together.',
+    tags: ['Java', 'MVC', 'School Project'],
+  },
+  {
+    year: '2024',
+    period: 'Nov 2024',
+    title: 'Deep Dive into Web Development',
+    description:
+      'Shifted focus to web dev. Started learning HTML, CSS, JS, and building real projects outside of class to ship faster.',
+    tags: ['Web', 'HTML/CSS/JS'],
+  },
+  {
+    year: '2025',
+    title: 'First Project Shipped',
+    description:
+      'Shipped my first real project. From local prototype to something live — learned deployment, UX, and fixing bugs for real users.',
+    tags: ['Shipping', 'Full Stack'],
+  },
+  {
+    year: '2025',
+    period: 'Jan 2025',
+    title: 'Institutional Student Assistant (BulSU)',
+    description:
+      'Served as an Institutional Student Assistant at BulSU (Jan–May 2025), juggling school, work, and side projects.',
+    tags: ['Work', 'BulSU'],
+  },
+  {
+    year: '2025',
+    period: 'Mar 2025 – May 2025',
+    title: 'Salesforce Intern @ The SmartBridge',
+    description:
+      'Completed 22 Trailhead superbadges, got hands-on with CRM, security models, and workflow automation.',
+    tags: ['Salesforce', 'Internship'],
+  },
+  {
+    year: '2026',
+    period: 'Jan 2026',
+    title: 'Discovered COBOL & Mainframe',
+    description:
+      'Learned about COBOL and legacy mainframe tech (z/OS). Explored how critical systems still run the world.',
+    tags: ['COBOL', 'Mainframe', 'z/OS'],
+  },
+  {
+    year: '2026',
+    period: 'Feb 2026 – Apr 2026',
+    title: 'Developer Intern @ Land Bank of the Philippines',
+    description:
+      'Migrated and developed 10+ COBOL programs for z/OS, worked with PS/VSAM, ran JCL jobs, and did unit testing to mainframe standards.',
+    tags: ['COBOL', 'JCL', 'VSAM', 'z/OS', 'Internship'],
+  },
+  {
+    year: '2026',
+    period: 'Mar 2026',
+    title: 'IBM Mainframe Certificate',
+    description:
+      'Earned the IBM Mainframe Developer certification, solidifying my mainframe fundamentals.',
+    tags: ['IBM', 'Certification'],
+  },
+  {
+    year: '2026',
+    period: 'Apr 2026 – Jul 2026',
+    title: 'Full Stack Trainee @ Accenture Technology Academy',
+    description:
+      'Intensive 343-hour training in Full Stack + Microservices: Core Java, Spring Boot, React + TypeScript.',
+    tags: ['Java', 'Spring Boot', 'React', 'TypeScript', 'Training'],
+  },
+  {
+    year: '2026',
+    period: 'Sep 2026 – Present',
+    title: 'Custom Software Engineer @ Accenture',
+    description:
+      'Onboarded as Custom SWE after training, now building enterprise solutions and diving deeper into DevOps.',
+    tags: ['Accenture', 'SWE', 'DevOps'],
+  },
+];
+
+export interface WorkflowStep {
+  step: number;
+  title: string;
+  description: string;
+  command?: string;
+}
+
+export const DEVELOPMENT_WORKFLOW: WorkflowStep[] = [
+  {
+    step: 1,
+    title: 'Plan',
+    description:
+      'Clarify the problem, constraints, and goals. Sketch the data model, API shape, and UX flow.',
+    command: 'cat problem.md',
+  },
+  {
+    step: 2,
+    title: 'Prototype',
+    description:
+      'Spike quickly with the right tools. Validate core logic and UI before over-engineering.',
+    command: 'npm run dev',
+  },
+  {
+    step: 3,
+    title: 'Iterate',
+    description:
+      'Build in small chunks, refactor as I learn. Test, polish, and keep it simple and readable.',
+    command: 'git commit -m "wip: iterate"',
+  },
+  {
+    step: 4,
+    title: 'Ship',
+    description: 'Test, document, and deploy. Learn from feedback and iterate again.',
+    command: 'git push && deploy',
+  },
+];
+
+export function getPortfolioStats() {
+  const yearsExp = (() => {
+    const start = new Date('2026-09-01');
+    const now = new Date();
+    const diff = now.getFullYear() - start.getFullYear();
+    const months = now.getMonth() - start.getMonth();
+    let years = diff + months / 12;
+    if (years < 0.1) years = 0.25; // account for internship/training
+    return Math.max(1, Math.floor(years * 10) / 10);
+  })();
+
+  const projectsShipped = PROJECT_DATA.length;
+  const techStackCount = Array.from(new Set(SKILL_DATA.map((s) => s.name))).length;
+
+  return [
+    { label: 'Years of Experience', value: yearsExp.toFixed(1), suffix: '+' },
+    { label: 'Projects Shipped', value: projectsShipped, suffix: '' },
+    { label: 'Tech Stack', value: techStackCount, suffix: '+' },
+  ];
+}

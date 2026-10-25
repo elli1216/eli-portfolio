@@ -8,6 +8,9 @@ import { Hero } from '@/components/home/Hero';
 import { NotFound } from '@/components/home/NotFound';
 import {
   AboutSection,
+  StorySection,
+  StatsSection,
+  WorkflowSection,
   ExperienceSection,
   SkillsSection,
   ProjectsSection,
@@ -38,11 +41,14 @@ const App: React.FC = () => {
               <main>
                 <Hero />
                 <AboutSection />
+                <StatsSection />
+                <WorkflowSection />
                 <ExperienceSection />
                 <SkillsSection />
                 <ProjectsSection />
                 <CertificatesSection />
                 <NovaSection />
+                <StorySection />
                 <ContactSection />
               </main>
               <Footer />

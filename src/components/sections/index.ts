@@ -1,6 +1,9 @@
 export { Section } from './Section';
 export { SectionCommand } from './SectionCommand';
 export { AboutSection } from './AboutSection';
+export { StorySection } from './StorySection';
+export { StatsSection } from './StatsSection';
+export { WorkflowSection } from './WorkflowSection';
 export { ExperienceSection } from './ExperienceSection';
 export { SkillsSection } from './SkillsSection';
 export { ProjectsSection } from './ProjectsSection';
