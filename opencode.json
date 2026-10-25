@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "servers": {
+      "composio": {
+        "type": "remote",
+        "url": "https://connect.composio.dev/mcp"
+      }
+    }
+  }
+}
