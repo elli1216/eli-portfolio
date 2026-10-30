@@ -3,12 +3,6 @@ import { motion } from 'framer-motion';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { EXPERIENCE_DATA } from '@/constants/constants';
 
-const getLogoUrl = (companyUrl: string) => {
-  const apiKey = import.meta.env.VITE_LOGO_DEV_PUBLIC_KEY;
-  if (!apiKey) return null;
-  return `https://api.logo.dev/logo?domain=${companyUrl}&apikey=${apiKey}`;
-};
-
 export const ExperiencePage: React.FC = () => {
   return (
     <div className="min-h-screen py-20 md:py-32 px-6 md:px-0">
@@ -48,21 +42,6 @@ export const ExperiencePage: React.FC = () => {
                     }`}
                   >
                     <article className="rounded-lg border border-border bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/60 hover:bg-card/60">
-                      {/* Company logo */}
-                      {entry.companyUrl && getLogoUrl(entry.companyUrl) && (
-                        <div className="mb-4 flex items-center gap-3">
-                          <img
-                            src={getLogoUrl(entry.companyUrl)!}
-                            alt={entry.company}
-                            className="h-8 w-8 object-contain"
-                            onError={(e) => {
-                              // Fallback if logo fails to load
-                              (e.target as HTMLImageElement).style.display = 'none';
-                            }}
-                          />
-                        </div>
-                      )}
-
                       <div className="flex flex-col gap-2">
                         <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
                           <div>

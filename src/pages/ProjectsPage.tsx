@@ -61,7 +61,7 @@ export const ProjectsPage: React.FC = () => {
                           </h3>
                           {project.hackathonTitle && (
                             <span className="px-2 py-1 text-xs bg-primary/10 text-primary rounded font-medium whitespace-nowrap">
-                              {project.hackathonTitle.split(' ')[0]} Winner
+                              {project.hackathonTitle.split(' ')[0]}
                             </span>
                           )}
                         </div>
@@ -124,7 +124,7 @@ export const ProjectsPage: React.FC = () => {
                             className="inline-flex items-center gap-1 px-3 py-2 bg-primary/10 text-primary rounded text-xs hover:bg-primary/20 transition-colors font-medium"
                           >
                             <ExternalLink size={13} />
-                            Demo
+                            Live Site
                           </a>
                         )}
                         {project.repoLink && (
