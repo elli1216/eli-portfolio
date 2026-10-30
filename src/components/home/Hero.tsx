@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import { HeroContent } from '@/components/home/HeroContent';
-import { BANNER_LINES } from '@/terminal/data/banner';
 
 /**
  * Landing section. Redesigned with a cleaner layout, subtle ASCII accent,
@@ -14,12 +13,6 @@ export const Hero: React.FC = () => (
     id="home"
     className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden"
   >
-    {/* Subtle ASCII background accent */}
-    <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center opacity-[0.04] dark:opacity-[0.06]">
-      <pre className="select-none whitespace-pre font-mono text-primary text-[6px] leading-tight sm:text-[8px] md:text-[10px] lg:text-xs">
-        {BANNER_LINES.join('\n')}
-      </pre>
-    </div>
 
     <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-4 py-16 sm:px-6 lg:py-20">
       <motion.div

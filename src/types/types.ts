@@ -52,6 +52,7 @@ export interface ProjectItem {
   placement?: string;
   placementOutOf?: string;
   certificate?: string;
+  techs?: string[];
 }
 
 export interface SkillItem {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import TextType from '@/components/shared/TextType';
-import { TerminalButton } from '@/components/shared/terminal';
 import { FileText } from 'lucide-react';
 import { NAMES, EXPERIENCE_DATA, PERSONAL_DATA } from '@/constants/constants';
 
@@ -93,14 +92,13 @@ export const HeroContent: React.FC = () => {
 
       {/* CTA */}
       <motion.div variants={fadeUp} className="mb-8">
-        <TerminalButton
-          command="./view-resume.sh"
-          variant="primary"
-          icon={FileText}
-          iconPosition="right"
+        <button
           onClick={handleViewResume}
-          size="md"
-        />
+          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
+        >
+          <FileText size={18} />
+          View Resume
+        </button>
       </motion.div>
 
       {/* Social links */}
