@@ -4,73 +4,76 @@
 
 # Eli's Portfolio
 
-A terminal-themed, single-page portfolio for **Darl Ellison Floresca (Eli)** — a
-software engineer and full-stack developer. The whole site is one scrolling page,
-and an interactive command bar pinned to the bottom lets visitors navigate and
-run terminal commands from anywhere.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1zMTnyF3eRWAh7tYMmDlX1pU0bZHi9gJP
+A modern, minimalist multi-page portfolio for **Darl Ellison Floresca (Eli)** — a
+software engineer and full-stack developer. Built with React Router v7 for smooth
+navigation between dedicated pages, featuring a clean design inspired by Bryl Lim's
+aesthetic with numbered section progression (01–07).
 
 ## Highlights
 
-- **Single scrolling page** with themed sections — Hero, About, Experience,
-  Skills, Projects, Certificates, Ask AI, Contact — each introduced by its own
-  terminal command prompt (e.g. `eli@portfolio:~$ experience`).
-- **Floating command bar** pinned to the bottom of the viewport:
-  - Typing a section command (or one of its aliases) smooth-scrolls to that
-    section — e.g. `experience`, `projects`, `contact`.
-  - Any other command (or a section command **with arguments**, e.g.
-    `experience 2`) prints into a collapsible output drawer above the input.
-  - Quick-command chips, command history, autocomplete, `Escape` to collapse the
-    drawer, and a clear button.
-  - Appears once roughly half of the hero has been scrolled past, with a
-    spring slide/fade animation on enter and exit.
-- **AI assistant** — an "Ask AI" section hosts a Claude-Code-style chat panel
-  ("Nova") that answers questions about Eli. It talks to a Gemini-powered
-  assistant through the serverless API route (`api/chat.ts`), which retrieves
-  portfolio data via function calls. The same assistant is also available from
-  the terminal via `nova <question>`.
-- **Theme + accent controls** — light/dark mode and six accent colors (green,
+- **Multi-page routing architecture** — React Router v7 with dedicated routes for each section:
+  - `/` — Home (hero with CTA buttons)
+  - `/about` — About (01) - Profile and introduction
+  - `/experience` — Experience (02) - Timeline of roles with company logos
+  - `/projects` — Projects (03) - **Horizontal carousel slider** showcasing featured work
+  - `/skills` — Skills (04) - Tech stack with dynamic icons
+  - `/certificates` — Certificates (05) - Credential gallery
+  - `/contact` — Contact (06) - Contact form and social links
+  - `/chat` — Ask AI (07) - Nova assistant chat interface
+
+- **Projects as horizontal carousel** — Browse projects via smooth slide navigation:
+  - Previous/Next arrow navigation
+  - Dot indicators for quick selection
+  - Full-width slides on mobile, 2-column on desktop
+  - Compact card design with image, tech stack, and links
+
+- **Minimalist modern design**:
+  - Clean, spacious layout with ample whitespace
+  - Numbered section headers (01, 02, etc.) for visual continuity
+  - Monochromatic with selective accent colors
+  - Smooth page transitions and animations
+  - No terminal UI or unnecessary chrome
+
+- **Rich project showcase**:
+  - Full project descriptions with problem statements
+  - Architecture breakdowns for technical projects
+  - Key features and results metrics
+  - Tech stack badges and links (Demo, Repository)
+  - Dynamic company logos via logo.dev API
+  - Tech stack icons via devicons CDN
+
+- **AI assistant** — "Ask AI" section with Nova, a Gemini-powered chatbot:
+  - Clean, minimalist chat interface
+  - Suggestion prompts for first-time visitors
+  - Queries about background, projects, skills, and contact
+  - Accessible from the dedicated `/chat` route
+
+- **Theme + accent controls** — Light/dark mode and six accent colors (green,
   blue, red, orange, purple, gray), both persisted to `localStorage`.
-- **Responsive navigation** — full section links on desktop and an animated
-  hamburger menu on mobile.
-- **Back-to-top button** that fades in after you scroll past the first screen.
-- **Expandable project cards** — descriptions are clamped with a
-  `read more` / `show less` toggle that only appears when the text overflows.
+
+- **Responsive design** — Mobile-first approach:
+  - Hamburger menu navigation on mobile
+  - Adaptive layouts for all screen sizes
+  - Touch-friendly controls and spacing
+  - Smooth scrolling between sections
+
+- **Back-to-top button** — Fades in after scrolling, smooth scroll to top.
+
+- **Smooth animations** — Entrance animations for page elements, carousel transitions.
+
 - Respects `prefers-reduced-motion` via `MotionConfig`.
-
-## Terminal commands
-
-Type these into the floating bar. Bare section commands navigate; everything else
-renders in the output drawer.
-
-| Command | Aliases | What it does |
-| --- | --- | --- |
-| `about` | `me`, `info`, `profile` | Jump to the About section |
-| `experience` | `exp`, `career`, `work` | Jump to Experience (add an index, e.g. `experience 2`, for details) |
-| `skills` | `stack`, `tech`, `toolchain` | Jump to Skills |
-| `projects` | `proj`, `portfolio` | Jump to Projects |
-| `certificates` | `certs`, `badges` | Jump to Certificates |
-| `nova` | `ai`, `ask`, `chat` | Jump to the Ask AI section (chat with Nova) |
-| `contact` | `reach`, `connect`, `socials` | Jump to Contact |
-| `whoami`, `neofetch` | — | Profile summary / system-style info card |
-| `resume` | `cv`, `view-cv` | Open the résumé PDF |
-| `cat` | `more` | Read a data file: `cat aboutme.yaml`, `cat projects.json`, `cat readme`, … |
-| `ls` | — | List the readable data files |
-| `stats`, `achievements`, `timeline`, `compare` | various | GitHub activity, awards, career timeline, project matrix |
-| `nova <question>` | `ai`, `ask`, `ellai` | Answer in the drawer instead of navigating (`nova-reset` to clear) |
-| `github`, `linkedin`, `email` | `in`, `mail` | Open the corresponding profile |
-| `echo`, `history`, `clear` | `hist`, `cls` | Standard terminal utilities |
-| `help` | `?`, `man`, `--help` | List all commands |
 
 ## Tech stack
 
 - **React 19** + **TypeScript**
+- **React Router v7** for multi-page navigation
 - **Vite 6** (build tooling; dev server on port `3000`)
 - **Tailwind CSS v4** (`@tailwindcss/vite`), `tw-animate-css`
-- **Motion** (`motion` / `framer-motion`) and **GSAP** for animation
-- **lucide-react** and **tech-stack-icons** for icons
-- **@google/generative-ai** for the `nova` assistant (serverless API route)
+- **Framer Motion** for animations
+- **embla-carousel** for smooth project carousel
+- **Lucide icons** and **devicons CDN** for icons
+- **@google/generative-ai** for the Nova AI assistant
+- **logo.dev API** for dynamic company logos
 
 ## Getting started
 
@@ -87,11 +90,10 @@ targets.
 2. Create a `.env.local` file (it is gitignored) with:
 
    ```dotenv
-   # Server-side key for the `nova` AI assistant (also injected into the client
-   # via Vite's `define` in vite.config.ts)
+   # Server-side key for the Nova AI assistant
    GEMINI_API_KEY=your_gemini_api_key
 
-   # Optional — company logos in the Experience section (see .env.example)
+   # Optional — company logos in the Experience section
    VITE_LOGO_DEV_PUBLIC_KEY=your_logo_dev_public_key
    ```
 
@@ -123,18 +125,18 @@ targets.
 api/                     Serverless functions (Gemini chat endpoint)
 public/                  Static assets (résumé PDF, favicon, …)
 src/
-├─ App.tsx               Single-page composition
+├─ App.tsx               React Router setup with layout wrapper
 ├─ index.tsx             React entry point
-├─ globals.css           Tailwind v4 theme, accent variables, terminal styles
+├─ routes.tsx            Route definitions for all pages
+├─ globals.css           Tailwind v4 theme, accent variables, typography
 ├─ components/
-│  ├─ layout/            Navbar, Footer, FloatingTerminal, BackToTop
+│  ├─ layout/            Navbar, Footer, Layout, BackToTop
 │  ├─ home/              Hero, HeroContent, NotFound
-│  ├─ sections/          About / Experience / Skills / Projects / Certificates / Ask AI / Contact
-│  ├─ shared/            Shared UI (terminal primitives, NovaMarkdown, TextType, …)
-│  └─ ui/                Generic UI primitives
+│  ├─ shared/            Shared UI (SectionHeader, NovaMarkdown, TextType, …)
+│  └─ ui/                Generic UI primitives (shadcn components)
+├─ pages/                Page components (Home, About, Experience, Projects, Skills, Certificates, Contact, Chat)
 ├─ contexts/             Theme + accent providers
-├─ terminal/             Command engine (parser, registry, hooks, output blocks)
-├─ constants/constants.ts  Portfolio content + SECTIONS / NAV_ITEMS
+├─ constants/constants.ts  Portfolio content (experience, projects, skills, certificates)
 └─ types/types.ts        Shared TypeScript types
 ```
 
@@ -145,22 +147,26 @@ Content (experience, projects, skills, certificates, contact) lives in
 
 The project is set up to deploy on **Vercel** (`vercel.json` rewrites all routes
 to `index.html`, and `api/` is served as serverless functions). Set the
-`GEMINI_API_KEY` environment variable in your hosting provider so the `nova`
+`GEMINI_API_KEY` environment variable in your hosting provider so the Nova
 assistant works in production.
 
 ## Recent changes
 
-This README was refreshed to match the current single-page redesign:
+The portfolio has been redesigned from a single-page terminal-themed site to a **modern, multi-page architecture**:
 
-- Consolidated the site into a **single scrolling page**; sections now render as
-  normal page content instead of terminal-window cards, each led by its command.
-- Introduced the **floating command bar** with the hybrid navigate/output-drawer
-  behavior, and removed the old full-screen terminal emulator.
-- The bar now appears after **half of the hero** is scrolled, with enter/exit
-  animations.
-- Added a **responsive mobile menu**, a **back-to-top button**, and
-  **expandable project descriptions**.
-- Added an **"Ask AI" section** — a Claude-Code-style chat panel for the Nova
-  assistant — and extracted the shared Markdown renderer (`NovaMarkdown`).
-- Switched to a **plain background** and removed the custom cursor.
-- Fixed mobile overflow in the Certificates and Contact sections.
+- **Switched to React Router v7** — Dedicated routes for each section instead of hash navigation on a single page.
+- **Removed all terminal UI** — No floating terminal bar, terminal prompts, or command system. Clean, minimalist interface.
+- **Projects carousel** — Horizontal slider carousel for browsing projects instead of a scrolling list.
+- **Improved visual design** — Minimalist aesthetic inspired by Bryl Lim, with numbered sections (01–07) and better typography.
+- **Enhanced project showcase** — Rich project cards with architecture, features, results metrics, and tech stack.
+- **Dynamic company logos** — Integrated logo.dev API for company logos in the Experience section.
+- **Dynamic tech icons** — Skill icons loaded from devicons CDN for accurate technology representations.
+- **Redesigned chat interface** — Clean, modern Nova AI chat without terminal styling.
+- **Code cleanup** — Removed ~4,300 lines of unused terminal and old component code, reducing bundle size by 19%.
+- **Better performance** — Optimized bundle, removed unnecessary dependencies, cleaner architecture.
+
+## Browser support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile browsers (iOS Safari, Android Chrome)
+- Respects system dark mode preference
