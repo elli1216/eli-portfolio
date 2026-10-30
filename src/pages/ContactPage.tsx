@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { PERSONAL_DATA } from '@/constants/constants';
-import { Mail, Linkedin, Github, Twitter } from 'lucide-react';
+import { Mail, Linkedin, Github } from 'lucide-react';
 
 export const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,26 +34,20 @@ export const ContactPage: React.FC = () => {
     {
       name: 'Email',
       icon: Mail,
-      href: `mailto:${PERSONAL_DATA.primary_email}`,
-      label: PERSONAL_DATA.primary_email,
+      href: `mailto:${PERSONAL_DATA.emails[0]}`,
+      label: PERSONAL_DATA.emails[0],
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
-      href: PERSONAL_DATA.links.linkedin,
+      href: PERSONAL_DATA.linkedid.link,
       label: 'LinkedIn',
     },
     {
       name: 'GitHub',
       icon: Github,
-      href: PERSONAL_DATA.links.github,
+      href: PERSONAL_DATA.github.link,
       label: 'GitHub',
-    },
-    {
-      name: 'Twitter',
-      icon: Twitter,
-      href: PERSONAL_DATA.links.twitter,
-      label: 'Twitter',
     },
   ];
 
