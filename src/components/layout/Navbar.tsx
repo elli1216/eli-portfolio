@@ -1,66 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Moon, Sun, Palette, Terminal, Menu, X } from 'lucide-react';
-import { ACCENT_COLORS, SECTIONS } from '@/constants/constants';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Moon, Sun, Palette, Menu, X } from 'lucide-react';
+import { ACCENT_COLORS } from '@/constants/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAccent } from '@/contexts/AccentContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
-/**
- * Fixed navbar for the single-page layout: brand prompt, section links
- * (with scroll-spy highlight), and the theme + accent toggles.
- */
-export const Navbar = ({ onHome }: { onHome?: () => void }) => {
+const NAV_ITEMS = [
+  { path: '/about', label: 'About' },
+  { path: '/experience', label: 'Experience' },
+  { path: '/projects', label: 'Projects' },
+  { path: '/skills', label: 'Skills' },
+  { path: '/certificates', label: 'Certificates' },
+  { path: '/contact', label: 'Contact' },
+  { path: '/chat', label: 'Chat' },
+];
+
+export const Navbar = () => {
   const { accentColor, setAccentColor } = useAccent();
   const { darkMode, toggleTheme } = useTheme();
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
-
-  const goHome = () => {
-    if (onHome) onHome();
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  /**
-   * Navigate to a section via `scrollIntoView` rather than the native
-   * `href="#id"` jump. Native fragment scrolling is unreliable here because the
-   * page sets `overflow-x: hidden` on `html`/`body`, which turns the root into a
-   * (nested) scroll container and breaks anchor scrolling on mobile WebKit.
-   * This mirrors the mechanism the floating terminal already uses.
-   */
-  const goToSection = (id: string) => {
-    setMobileOpen(false);
-    const target = document.getElementById(id);
-    if (!target) return;
-    setActiveSection(id);
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Scroll-spy: highlight the section currently in view.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
-    );
-    SECTIONS.forEach((section) => {
-      const el = document.getElementById(section.id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -99,45 +70,32 @@ export const Navbar = ({ onHome }: { onHome?: () => void }) => {
       } ${scrolled && !mobileOpen ? 'border-b border-border/40' : ''}`}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-        {/* Terminal Brand / Logo */}
-        <motion.a
-          href="#"
-          className="font-mono text-base sm:text-lg font-bold text-foreground tracking-tight flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted/40 border border-border/50 hover:border-primary/50 transition-colors shrink-0"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          aria-label="Back to top"
-          onClick={(e) => {
-            e.preventDefault();
-            goHome();
-          }}
+        {/* Logo / Home Link */}
+        <Link
+          to="/"
+          className="font-semibold text-lg text-foreground tracking-tight hover:text-primary transition-colors shrink-0"
+          aria-label="Home"
         >
-          <Terminal size={15} className="text-primary" />
-          <span className="text-primary font-bold">eli</span>
-          <span className="text-muted-foreground">:</span>
-          <span className="text-foreground">~#</span>
-        </motion.a>
+          eli
+        </Link>
 
         {/* Section links */}
-        <div className="hidden md:flex items-center gap-1 font-mono text-xs">
-          {SECTIONS.map((section) => {
-            const isActive = activeSection === section.id;
+        <div className="hidden md:flex items-center gap-1 text-sm">
+          {NAV_ITEMS.map((item) => {
+            const isActive = location.pathname === item.path;
             return (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                onClick={(event) => {
-                  event.preventDefault();
-                  goToSection(section.id);
-                }}
-                aria-current={isActive ? 'true' : undefined}
-                className={`px-2.5 py-1.5 rounded-md transition-colors ${
+              <Link
+                key={item.path}
+                to={item.path}
+                aria-current={isActive ? 'page' : undefined}
+                className={`px-3 py-2 rounded-md transition-colors ${
                   isActive
                     ? 'text-primary bg-primary/10'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
                 }`}
               >
-                {section.label}
-              </a>
+                {item.label}
+              </Link>
             );
           })}
         </div>
@@ -219,26 +177,23 @@ export const Navbar = ({ onHome }: { onHome?: () => void }) => {
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             className="md:hidden overflow-hidden border-t border-border/40 bg-background/95 backdrop-blur-md"
           >
-            <div className="max-w-7xl mx-auto px-4 py-3 max-h-[70vh] overflow-y-auto flex flex-col gap-1 font-mono text-sm">
-              {SECTIONS.map((section) => {
-                const isActive = activeSection === section.id;
+            <div className="max-w-7xl mx-auto px-4 py-3 max-h-[70vh] overflow-y-auto flex flex-col gap-1 text-sm">
+              {NAV_ITEMS.map((item) => {
+                const isActive = location.pathname === item.path;
                 return (
-                  <a
-                    key={section.id}
-                    href={`#${section.id}`}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      goToSection(section.id);
-                    }}
-                    aria-current={isActive ? 'true' : undefined}
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={isActive ? 'page' : undefined}
                     className={`px-3 py-2.5 rounded-md transition-colors ${
                       isActive
                         ? 'text-primary bg-primary/10'
                         : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
                     }`}
                   >
-                    {section.label}
-                  </a>
+                    {item.label}
+                  </Link>
                 );
               })}
             </div>
