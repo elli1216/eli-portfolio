@@ -245,6 +245,79 @@ export const About: React.FC = () => {
         </div>
       </motion.div>
 
+      {/* My Workflow */}
+      <motion.div
+        className="mt-14 sm:mt-20 w-full min-w-0"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <TerminalSectionHeader
+          command="cat workflow.conf"
+          title="My Workflow"
+          description="Agile iterative approach to building scalable systems."
+          executionTime="8ms"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 font-mono w-full min-w-0">
+          {[
+            {
+              step: '01',
+              title: 'Requirements Gathering',
+              description: 'Understand business needs, constraints, and user expectations through collaboration and documentation.',
+            },
+            {
+              step: '02',
+              title: 'Coding',
+              description: 'Write clean, type-safe, and maintainable code following best practices and architectural patterns.',
+            },
+            {
+              step: '03',
+              title: 'Testing',
+              description: 'Validate functionality through unit tests, integration tests, and manual QA to ensure reliability.',
+            },
+            {
+              step: '04',
+              title: 'Deployment',
+              description: 'Release to production with confidence using CI/CD pipelines and monitoring for real-world performance.',
+            },
+          ].map((step, index) => (
+            <motion.div
+              key={step.step}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="h-fit flex flex-col w-full min-w-0"
+            >
+              <TerminalWindow
+                title={`step-${step.step}.md`}
+                command={`cat step-${step.step}.md`}
+                className="h-fit flex flex-col shadow-md w-full min-w-0"
+                bodyClassName="p-4 sm:p-5 flex flex-col flex-1 justify-between font-mono min-w-0"
+              >
+                <div className="space-y-3 min-w-0">
+                  <div className="flex items-start gap-3">
+                    <div className="size-8 sm:size-9 rounded-lg flex items-center justify-center border border-primary/20 shrink-0 bg-primary/10 text-primary font-bold text-sm">
+                      {step.step}
+                    </div>
+                    <h4 className="font-bold text-sm sm:text-base text-foreground tracking-tight wrap-break-word pt-0.5">
+                      {step.title}
+                    </h4>
+                  </div>
+
+                  <div className="p-3 rounded-lg bg-muted/30 border border-border/40 text-xs text-muted-foreground leading-relaxed wrap-break-word">
+                    <span className="text-primary font-bold mr-1.5">#</span>
+                    {step.description}
+                  </div>
+                </div>
+              </TerminalWindow>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* GitHub Activity & Stats */}
       <motion.div
         className="mt-14 sm:mt-20 w-full min-w-0"

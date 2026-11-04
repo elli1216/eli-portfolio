@@ -80,7 +80,7 @@ export const EXPERIENCE_DATA: ExperienceItem[] = [
     certificate: '/certificates/training.png',
   },
   {
-    role: 'COBOL Developer Intern',
+    role: 'Software Developer Intern',
     company: 'Land Bank of the Philippines (HO)',
     companyUrl: 'landbank.com',
     period: 'February 2026 - April 2026',

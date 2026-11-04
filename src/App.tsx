@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
+import { FloatingNavSidebar } from '@/components/layout/FloatingNavSidebar';
 import { Hero } from '@/components/home/Hero';
 import { SectionLoader } from '@/components/layout/SectionLoader';
 import { Footer } from '@/components/layout/Footer';
@@ -20,42 +22,96 @@ const Contact = React.lazy(() => import('@/components/contact/Contact').then(m =
 const Certificates = React.lazy(() => import('@/components/certificates/Certificates').then(m => ({ default: m.Certificates })));
 const ChatWidget = React.lazy(() => import('@/components/chat/ChatWidget').then(m => ({ default: m.ChatWidget })));
 
-const App: React.FC = () => {
-  const isNotFound = window.location.pathname !== '/';
+const AppContent: React.FC = () => {
   const isMobile = useMobile();
 
   return (
-    <ThemeProvider>
-      <AccentProvider>
-        <SmoothScroll>
-          {isNotFound ? (
-            <NotFound />
-          ) : (
-            <div className="min-h-dvh w-full overflow-x-hidden flex flex-col">
-              {isMobile ? null : <ThemedCursor />}
-              <Navbar />
-              <main className="grow">
-                <Hero />
+    <SmoothScroll>
+      <div className="min-h-dvh w-full overflow-x-hidden flex flex-col">
+        {isMobile ? null : <ThemedCursor />}
+        <Navbar />
+        <FloatingNavSidebar />
+        <main className="grow">
+          <Routes>
+            <Route path="/" element={<Hero />} />
+            <Route
+              path="/about"
+              element={
                 <Suspense fallback={<SectionLoader />}>
                   <About />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/experience"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Experience />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/projects"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Projects />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/skills"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Skills />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/activities"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Hackathons />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/certificates"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Certificates />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Suspense fallback={<SectionLoader />}>
                   <Contact />
                 </Suspense>
-              </main>
-              <Footer />
-              <BackToTop />
-              <Suspense fallback={null}>
-                <ChatWidget />
-              </Suspense>
-            </div>
-          )}
-        </SmoothScroll>
-      </AccentProvider>
-    </ThemeProvider>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+        <BackToTop />
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
+      </div>
+    </SmoothScroll>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <ThemeProvider>
+        <AccentProvider>
+          <AppContent />
+        </AccentProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 

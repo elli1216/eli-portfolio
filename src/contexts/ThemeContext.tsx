@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 interface ThemeContextValue {
+  theme: string;
   darkMode: boolean;
   toggleTheme: () => void;
 }
@@ -30,9 +31,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const toggleTheme = useCallback(() => {
     setDarkMode(prev => !prev);
   }, []);
+  const theme = darkMode ? 'dark' : 'light';
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
+    <ThemeContext.Provider value={{ darkMode, toggleTheme, theme }}>
       {children}
     </ThemeContext.Provider>
   );

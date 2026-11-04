@@ -152,7 +152,7 @@ export const GithubStatsWidget: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  });
+  }, []);
 
   // Dynamic theme colors that scale from inactive to full accent
   const calendarTheme = useMemo(

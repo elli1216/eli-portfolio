@@ -8,11 +8,9 @@ import {
   Users,
   Target,
   Lightbulb,
-  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   Palette,
-  Terminal,
   Award,
 } from 'lucide-react';
 import { getInitials } from '@/lib/utils';
@@ -253,8 +251,8 @@ export const Hackathons: React.FC = () => {
     <Section id="hackathons">
       <TerminalSectionHeader
         command='git tag -l "competition-*"'
-        title="Hackathons & Competitions"
-        description="Hackathons and competitions I've participated in."
+        title="Activities"
+        description="Extra activities I've participated in."
         executionTime="7ms"
       />
 
