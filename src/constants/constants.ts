@@ -754,10 +754,16 @@ export const certificates = [
     href: 'https://lnkd.in/p/g4XH5Vey'
   },
   {
-    src: '/certificates/dockerk8.png',
+    src: '/certificates/gitfundamentals.png',
     issuer: 'DataCamp',
-    alt: 'Containerization and Virtualization with Docker and Kubernetes',
-    href: 'https://www.datacamp.com/completed/statement-of-accomplishment/track/bb778aa8f1e1e41952d9f7f335fdc69bd8d040f6?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa',
+    alt: 'Git Fundamentals',
+    href: 'https://www.datacamp.com/completed/statement-of-accomplishment/track/368bf9b54473648628e361f6052d8ae0dc4883ca?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa',
+  },
+  {
+    src: '/certificates/githubfoundations.png',
+    issuer: 'DataCamp',
+    alt: 'GitHub Foundations',
+    href: 'https://www.datacamp.com/completed/statement-of-accomplishment/track/9306fcd34a81186d9ddbb27561f240cb2c5782a1?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa',
   },
   {
     src: '/certificates/aws_cloud.png',
